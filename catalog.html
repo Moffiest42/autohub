@@ -1,0 +1,105 @@
+<main class="container">
+  <h1>Каталог</h1>
+
+  <div class="catalog-controls">
+    <input type="search" id="catalog-search" placeholder="Поиск: модель, услуга, механик…">
+    <div class="tabs">
+      <button class="tab active" data-tab="cars" type="button">Автомобили</button>
+      <button class="tab" data-tab="services" type="button">Услуги механиков</button>
+    </div>
+  </div>
+
+  <!-- 6 автомобилей -->
+  <section id="cars" class="card-grid">
+    <article class="card" data-name="toyota camry седан">
+      <div class="card-img">🚗</div>
+      <h3>Toyota Camry</h3>
+      <p class="card-meta">Седан · 2024 · 2.5 л · автомат</p>
+      <p class="card-price">3 200 000 ₽</p>
+      <a class="btn btn-small" href="#">Подробнее</a>
+    </article>
+    <article class="card" data-name="kia rio седан">
+      <div class="card-img">🚙</div>
+      <h3>Kia Rio</h3>
+      <p class="card-meta">Седан · 2023 · 1.6 л · механика</p>
+      <p class="card-price">1 750 000 ₽</p>
+      <a class="btn btn-small" href="#">Подробнее</a>
+    </article>
+    <article class="card" data-name="hyundai tucson кроссовер">
+      <div class="card-img">🚙</div>
+      <h3>Hyundai Tucson</h3>
+      <p class="card-meta">Кроссовер · 2024 · 2.0 л · автомат</p>
+      <p class="card-price">3 600 000 ₽</p>
+      <a class="btn btn-small" href="#">Подробнее</a>
+    </article>
+    <article class="card" data-name="volkswagen polo седан">
+      <div class="card-img">🚗</div>
+      <h3>Volkswagen Polo</h3>
+      <p class="card-meta">Седан · 2022 · 1.6 л · автомат</p>
+      <p class="card-price">1 950 000 ₽</p>
+      <a class="btn btn-small" href="#">Подробнее</a>
+    </article>
+    <article class="card" data-name="bmw x5 кроссовер">
+      <div class="card-img">🏎️</div>
+      <h3>BMW X5</h3>
+      <p class="card-meta">Кроссовер · 2023 · 3.0 л · автомат</p>
+      <p class="card-price">7 900 000 ₽</p>
+      <a class="btn btn-small" href="#">Подробнее</a>
+    </article>
+    <article class="card" data-name="tesla model 3 электро">
+      <div class="card-img">⚡</div>
+      <h3>Tesla Model 3</h3>
+      <p class="card-meta">Электромобиль · 2024 · электро</p>
+      <p class="card-price">4 500 000 ₽</p>
+      <a class="btn btn-small" href="#">Подробнее</a>
+    </article>
+  </section>
+
+  <!-- 6 услуг механиков -->
+  <section id="services" class="card-grid hidden">
+    <article class="card" data-name="диагностика двигателя андрей соколов">
+      <div class="card-img">🔧</div>
+      <h3>Диагностика двигателя</h3>
+      <p class="card-meta">Механик: Андрей Соколов · 60 мин</p>
+      <p class="card-price">1 500 ₽</p>
+      <a class="btn btn-small" href="register.html">Записаться</a>
+    </article>
+    <article class="card" data-name="замена масла игорь лебедев">
+      <div class="card-img">🛢️</div>
+      <h3>Замена масла и фильтров</h3>
+      <p class="card-meta">Механик: Игорь Лебедев · 40 мин</p>
+      <p class="card-price">900 ₽</p>
+      <a class="btn btn-small" href="register.html">Записаться</a>
+    </article>
+    <article class="card" data-name="ремонт тормозной системы сергей волков">
+      <div class="card-img">🛞</div>
+      <h3>Ремонт тормозной системы</h3>
+      <p class="card-meta">Механик: Сергей Волков · 90 мин</p>
+      <p class="card-price">3 000 ₽</p>
+      <a class="btn btn-small" href="register.html">Записаться</a>
+    </article>
+    <article class="card" data-name="шиномонтаж балансировка дмитрий орлов">
+      <div class="card-img">⚙️</div>
+      <h3>Шиномонтаж и балансировка</h3>
+      <p class="card-meta">Механик: Дмитрий Орлов · 50 мин</p>
+      <p class="card-price">2 200 ₽</p>
+      <a class="btn btn-small" href="register.html">Записаться</a>
+    </article>
+    <article class="card" data-name="ремонт подвески андрей соколов">
+      <div class="card-img">🔩</div>
+      <h3>Ремонт подвески</h3>
+      <p class="card-meta">Механик: Андрей Соколов · 120 мин</p>
+      <p class="card-price">4 500 ₽</p>
+      <a class="btn btn-small" href="register.html">Записаться</a>
+    </article>
+    <article class="card" data-name="компьютерная диагностика электрики максим крылов">
+      <div class="card-img">💻</div>
+      <h3>Диагностика электрики</h3>
+      <p class="card-meta">Механик: Максим Крылов · 45 мин</p>
+      <p class="card-price">1 800 ₽</p>
+      <a class="btn btn-small" href="register.html">Записаться</a>
+    </article>
+  </section>
+
+  <p id="no-results" class="hidden">Ничего не найдено 😕</p>
+</main>
