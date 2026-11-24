@@ -1,0 +1,18 @@
+<h1>Вход</h1>
+<form id="login-form" class="auth-form" novalidate>
+  <div class="form-field">
+    <label for="login-user">Логин или Email</label>
+    <input type="text" id="login-user" name="login-user">
+    <span class="error" id="login-user-error"></span>
+  </div>
+  <div class="form-field">
+    <label for="login-password">Пароль</label>
+    <div class="password-wrap">
+      <input type="password" id="login-password" name="login-password">
+      <button type="button" class="toggle-password" data-target="login-password">👁</button>
+    </div>
+    <span class="error" id="login-password-error"></span>
+  </div>
+  <button type="submit" class="btn">Войти</button>
+</form>
+<p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>

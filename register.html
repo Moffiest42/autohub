@@ -1,0 +1,34 @@
+<h1>Регистрация</h1>
+<form id="register-form" class="auth-form" novalidate>
+  <div class="form-field">
+    <label for="fullname">ФИО</label>
+    <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович">
+    <span class="error" id="fullname-error"></span>
+  </div>
+  <div class="form-field">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="ivan@mail.ru">
+    <span class="error" id="email-error"></span>
+  </div>
+  <div class="form-field">
+    <label for="login">Логин</label>
+    <input type="text" id="login" name="login" placeholder="ivan2026">
+    <span class="error" id="login-error"></span>
+  </div>
+  <div class="form-field">
+    <label for="password">Пароль (минимум 8 символов)</label>
+    <div class="password-wrap">
+      <input type="password" id="password" name="password">
+      <button type="button" class="toggle-password" data-target="password">👁</button>
+    </div>
+    <span class="error" id="password-error"></span>
+  </div>
+  <div class="form-field">
+    <label for="password2">Повтор пароля</label>
+    <input type="password" id="password2" name="password2">
+    <span class="error" id="password2-error"></span>
+  </div>
+  <button type="submit" class="btn">Зарегистрироваться</button>
+  <p id="form-success" class="success hidden">✅ Проверка пройдена! Данные корректны.</p>
+</form>
+<p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
