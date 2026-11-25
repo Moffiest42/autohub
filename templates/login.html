@@ -1,13 +1,8 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoFix — автосервис</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<script src="js/main.js"></script>
-<link rel="stylesheet" href="./css/style.css">
+{% extends 'base.html' %}
+{% block title %}Вход — AutoFix{% endblock %}
+{% block content %}
 <h1>Вход</h1>
-<form id="login-form" class="auth-form" novalidate>
+<form id="login-form" class="panel auth-form" novalidate>
   <div class="form-field">
     <label for="login-user">Логин или Email</label>
     <input type="text" id="login-user" name="login-user">
@@ -23,4 +18,6 @@
   </div>
   <button type="submit" class="btn">Войти</button>
 </form>
-<p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+<p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+<p class="muted">Проверка учётных данных и сессия будут реализованы в ЛР №3.</p>
+{% endblock %}

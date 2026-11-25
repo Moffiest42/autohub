@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Страница не найдена — AutoFix{% endblock %}
+{% block content %}
+<div class="panel confirm-panel">
+  <div class="detail-emoji">🔍</div>
+  <h1>404 — такой записи нет</h1>
+  <p>Возможно, услуга была удалена или указан неверный идентификатор.</p>
+  <div class="form-actions">
+    <a class="btn" href="{% url 'service_list' %}">В каталог услуг</a>
+    <a class="btn btn-outline" href="{% url 'home' %}">На главную</a>
+  </div>
+</div>
+{% endblock %}

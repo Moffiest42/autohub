@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}AutoFix — автосервис{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+{% with nav=request.resolver_match.url_name %}
+<header class="site-header">
+  <a href="{% url 'home' %}" class="logo">🔧 AutoFix</a>
+  <nav class="nav">
+    <a href="{% url 'home' %}" class="nav-link {% if nav == 'home' %}active{% endif %}">Главная</a>
+    <a href="{% url 'service_list' %}" class="nav-link {% if nav|slice:':7' == 'service' %}active{% endif %}">Услуги</a>
+    <a href="{% url 'booking' %}" class="nav-link {% if nav == 'booking' %}active{% endif %}">Запись</a>
+    <a href="{% url 'contacts' %}" class="nav-link {% if nav == 'contacts' %}active{% endif %}">Контакты</a>
+    <a href="{% url 'register' %}" class="nav-link {% if nav == 'register' %}active{% endif %}">Регистрация</a>
+    <a href="{% url 'login' %}" class="nav-link {% if nav == 'login' %}active{% endif %}">Вход</a>
+  </nav>
+  <button id="theme-toggle" class="btn btn-outline" type="button">🌙 Тема</button>
+</header>
+{% endwith %}
+
+<main class="container">
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer"><p>© 2026 AutoFix · Учебный проект ПМ.09 · ЛР №2</p></footer>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

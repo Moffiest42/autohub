@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Удаление услуги — AutoFix{% endblock %}
+{% block content %}
+<div class="panel confirm-panel">
+  <h1>Удалить услугу?</h1>
+  <p><strong>{{ service.title }}</strong> — {{ service.category.name }}, {{ service.price|floatformat:0 }} ₽</p>
+  <p class="muted">Запись будет удалена из базы данных без возможности восстановления.</p>
+  <form method="post" class="form-actions">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Да, удалить</button>
+    <a class="btn btn-outline" href="{% url 'service_detail' service.pk %}">Отмена</a>
+  </form>
+</div>
+{% endblock %}

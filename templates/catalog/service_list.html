@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Услуги автосервиса — AutoFix{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <h1>Услуги автосервиса</h1>
+  <p>Найдено услуг: {{ services|length }}. Каталог формируется запросом SELECT из PostgreSQL.</p>
+</section>
+
+<form method="get" class="catalog-controls">
+  <input type="search" name="q" value="{{ query }}" placeholder="Поиск по названию или описанию…">
+  {% if active_category %}<input type="hidden" name="category" value="{{ active_category }}">{% endif %}
+  {% if active_mechanic %}<input type="hidden" name="mechanic" value="{{ active_mechanic.pk }}">{% endif %}
+  <button class="btn" type="submit">Найти</button>
+  <a class="btn btn-outline" href="{% url 'service_create' %}">+ Добавить услугу</a>
+</form>
+
+<div class="tabs">
+  <a class="tab {% if not active_category %}active{% endif %}"
+     href="{% url 'service_list' %}{% if query %}?q={{ query|urlencode }}{% endif %}">Все</a>
+  {% for c in categories %}
+  <a class="tab {% if active_category == c.pk %}active{% endif %}"
+     href="?category={{ c.pk }}{% if query %}&q={{ query|urlencode }}{% endif %}">{{ c.name }}</a>
+  {% endfor %}
+</div>
+
+{% if active_mechanic %}
+<p class="filter-chip">Мастер: {{ active_mechanic.full_name }}
+  <a href="{% url 'service_list' %}">✕ сбросить</a>
+</p>
+{% endif %}
+
+<section class="card-grid">
+  {% for s in services %}
+  <article class="card">
+    {% if s.image %}<img class="card-photo" src="{{ s.image.url }}" alt="{{ s.title }}">
+    {% else %}<div class="card-img">🔧</div>{% endif %}
+    <span class="card-badge">{{ s.category.name }}</span>
+    <h3>{{ s.title }}</h3>
+    <p class="card-meta">{{ s.mechanic.full_name }} · {{ s.duration_minutes }} мин</p>
+    <p class="card-price">{{ s.price|floatformat:0 }} ₽</p>
+    <div class="card-actions">
+      <a class="btn btn-small" href="{% url 'service_detail' s.pk %}">Подробнее</a>
+      <a class="btn btn-small btn-outline" href="{% url 'booking' %}?service={{ s.pk }}">Записаться</a>
+    </div>
+  </article>
+  {% empty %}
+  <div class="empty-state">
+    <p>По вашему запросу ничего не найдено.</p>
+    <a class="btn btn-outline" href="{% url 'service_list' %}">Сбросить фильтры</a>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}

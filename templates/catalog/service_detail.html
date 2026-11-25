@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}{{ service.title }} — AutoFix{% endblock %}
+{% block content %}
+<nav class="breadcrumbs">
+  <a href="{% url 'home' %}">Главная</a> /
+  <a href="{% url 'service_list' %}">Услуги</a> /
+  <span>{{ service.title }}</span>
+</nav>
+
+<div class="detail-grid">
+  <div class="panel detail-media">
+    {% if service.image %}<img class="detail-photo" src="{{ service.image.url }}" alt="{{ service.title }}">
+    {% else %}<div class="detail-emoji">🔧</div>{% endif %}
+  </div>
+  <div class="panel detail-info">
+    <span class="card-badge">{{ service.category.name }}</span>
+    <h1>{{ service.title }}</h1>
+    <p class="detail-price">{{ service.price|floatformat:0 }} ₽</p>
+    <div class="summary-row"><span>Мастер</span><span>{{ service.mechanic.full_name }}</span></div>
+    <div class="summary-row"><span>Специализация</span><span>{{ service.mechanic.specialization }}</span></div>
+    <div class="summary-row"><span>Стаж</span><span>{{ service.mechanic.experience }} лет</span></div>
+    <div class="summary-row"><span>Длительность</span><span>{{ service.duration_minutes }} мин</span></div>
+    <div class="summary-row"><span>Добавлено</span><span>{{ service.created_at|date:"d.m.Y H:i" }}</span></div>
+    <p class="detail-description">{{ service.description|default:"Описание пока не заполнено."|linebreaksbr }}</p>
+    <div class="form-actions">
+      <a class="btn" href="{% url 'booking' %}?service={{ service.pk }}">Записаться</a>
+      <a class="btn btn-outline" href="{% url 'service_update' service.pk %}">Редактировать</a>
+      <a class="btn btn-danger" href="{% url 'service_delete' service.pk %}">Удалить</a>
+    </div>
+  </div>
+</div>
+
+{% if related_services %}
+<h2 class="section-title">Похожие услуги</h2>
+<section class="card-grid">
+  {% for s in related_services %}
+  <article class="card">
+    <div class="card-img">🔧</div>
+    <h3>{{ s.title }}</h3>
+    <p class="card-meta">{{ s.mechanic.full_name }} · {{ s.duration_minutes }} мин</p>
+    <p class="card-price">{{ s.price|floatformat:0 }} ₽</p>
+    <a class="btn btn-small" href="{% url 'service_detail' s.pk %}">Подробнее</a>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

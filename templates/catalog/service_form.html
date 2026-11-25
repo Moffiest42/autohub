@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} — AutoFix{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+<p class="muted">Данные проверяются на сервере перед записью в PostgreSQL.</p>
+
+<form method="post" enctype="multipart/form-data" class="panel auth-form service-form" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div class="alert alert-error">{{ form.non_field_errors }}</div>
+  {% endif %}
+  {% for field in form %}
+  <div class="form-field">
+    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+    {{ field }}
+    {% if field.help_text %}<span class="help-text">{{ field.help_text }}</span>{% endif %}
+    {% for error in field.errors %}<span class="error">{{ error }}</span>{% endfor %}
+  </div>
+  {% endfor %}
+  <div class="form-actions">
+    <button class="btn" type="submit">Сохранить</button>
+    <a class="btn btn-outline" href="{% if service %}{% url 'service_detail' service.pk %}{% else %}{% url 'service_list' %}{% endif %}">Отмена</a>
+  </div>
+</form>
+{% endblock %}

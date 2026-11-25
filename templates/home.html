@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}AutoFix — автосервис и запись к механикам{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Автосервис AutoFix</h1>
+  <p>Диагностика, ремонт и обслуживание. {{ services_count }} услуг и {{ mechanics_count }} мастера — данные из PostgreSQL.</p>
+  <div class="hero-actions">
+    <a href="{% url 'service_list' %}" class="btn">Смотреть услуги</a>
+    <a href="{% url 'booking' %}" class="btn btn-outline">Записаться онлайн</a>
+  </div>
+</section>
+
+<section class="features">
+  <article class="feature-card">
+    <h2>Диагностика</h2>
+    <p>Компьютерная диагностика двигателя и электрики на профессиональном оборудовании.</p>
+  </article>
+  <article class="feature-card">
+    <h2>Ремонт и ТО</h2>
+    <p>Тормоза, подвеска, ГРМ, замена масла — механики со стажем от 5 лет.</p>
+  </article>
+  <article class="feature-card">
+    <h2>Прозрачные цены</h2>
+    <p>Стоимость и длительность каждой услуги видны до записи и фиксируются в заказ-наряде.</p>
+  </article>
+</section>
+
+<h2 class="section-title">Недавно добавленные услуги</h2>
+<section class="card-grid">
+  {% for s in latest_services %}
+  <article class="card">
+    {% if s.image %}<img class="card-photo" src="{{ s.image.url }}" alt="{{ s.title }}">
+    {% else %}<div class="card-img">🔧</div>{% endif %}
+    <span class="card-badge">{{ s.category.name }}</span>
+    <h3>{{ s.title }}</h3>
+    <p class="card-meta">{{ s.mechanic.full_name }} · {{ s.duration_minutes }} мин</p>
+    <p class="card-price">{{ s.price|floatformat:0 }} ₽</p>
+    <a class="btn btn-small" href="{% url 'service_detail' s.pk %}">Подробнее</a>
+  </article>
+  {% empty %}
+  <p class="empty-state">Каталог пока пуст — добавьте первую услугу.</p>
+  {% endfor %}
+</section>
+
+<section class="cta-strip">
+  <div>
+    <h2>Нужен ремонт?</h2>
+    <p>Выберите услугу и удобное время — мастер подтвердит запись.</p>
+  </div>
+  <a class="btn" href="{% url 'booking' %}">Записаться онлайн</a>
+</section>
+{% endblock %}

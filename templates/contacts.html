@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Контакты и команда — AutoFix{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <h1>Сервисный центр AutoFix</h1>
+  <p>Полный цикл обслуживания: от компьютерной диагностики до сложного ремонта. Работаем с 2014 года.</p>
+  <span id="open-badge" class="open-badge">● Уточняем график…</span>
+</section>
+
+<section class="stats-grid">
+  <div class="panel stat-card"><span class="stat-num" data-count="12">0</span><p class="stat-label">лет работы</p></div>
+  <div class="panel stat-card"><span class="stat-num" data-count="{{ mechanics|length }}">0</span><p class="stat-label">механиков в команде</p></div>
+  <div class="panel stat-card"><span class="stat-num" data-count="{{ services_count }}">0</span><p class="stat-label">услуг в каталоге</p></div>
+  <div class="panel stat-card"><span class="stat-num" data-count="{{ categories_count }}">0</span><p class="stat-label">направлений работ</p></div>
+</section>
+
+<h2 class="section-title">Наши механики</h2>
+<section class="team-grid">
+  {% for m in mechanics %}
+  <article class="panel mechanic-card">
+    <div class="avatar {% cycle 'av-1' 'av-2' 'av-3' 'av-4' 'av-5' %}">{{ m.initials }}</div>
+    <h3>{{ m.full_name }}</h3>
+    <div class="tags"><span class="tag">{{ m.specialization }}</span></div>
+    <div class="exp-bar"><div class="exp-fill" style="width:{{ m.experience_percent }}%"></div></div>
+    <p class="exp-label">Стаж {{ m.experience }} лет · услуг: {{ m.services.count }}</p>
+    <a class="btn btn-small" href="{% url 'service_list' %}?mechanic={{ m.pk }}">Услуги мастера</a>
+  </article>
+  {% empty %}
+  <p class="empty-state">Механики пока не добавлены.</p>
+  {% endfor %}
+</section>
+
+<section class="info-grid">
+  <div class="panel info-card">
+    <h3>📍 Адрес</h3>
+    <p>г. Москва, ул. Механиков, 15, стр. 2</p>
+    <p class="card-meta">Въезд со стороны дублёра, ориентир — синие ворота</p>
+  </div>
+  <div class="panel info-card">
+    <h3>📞 Связь</h3>
+    <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+    <a href="mailto:service@autofix.ru">service@autofix.ru</a>
+  </div>
+  <div class="panel info-card">
+    <h3>🕒 Часы работы</h3>
+    <table class="hours-table">
+      <tr data-days="1,2,3,4,5"><td>Пн–Пт</td><td>09:00–19:00</td></tr>
+      <tr data-days="6"><td>Суббота</td><td>10:00–17:00</td></tr>
+      <tr data-days="0"><td>Воскресенье</td><td>выходной</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="panel map-card">
+  <span class="map-pin">📍</span>
+  <h3>Как добраться</h3>
+  <p>5 минут пешком от ост. «Заводская», парковка для клиентов бесплатная.</p>
+  <a class="btn btn-small" href="https://yandex.ru/maps/?text=Москва, улица Механиков, 15" target="_blank" rel="noopener">Открыть в Яндекс.Картах</a>
+</section>
+
+<h2 class="section-title">Частые вопросы</h2>
+<section class="faq">
+  <details>
+    <summary>Нужна ли предварительная запись?</summary>
+    <p>Да, так мы гарантируем свободный пост и нужного мастера. Онлайн-запись занимает минуту.</p>
+  </details>
+  <details>
+    <summary>Даёте ли гарантию на работы?</summary>
+    <p>На все работы — 1 год или 20 000 км пробега. На запчасти действует гарантия производителя.</p>
+  </details>
+  <details>
+    <summary>Можно ли приехать со своими запчастями?</summary>
+    <p>Можно. Мастер проверит совместимость перед установкой; гарантия в этом случае — только на работу.</p>
+  </details>
+  <details>
+    <summary>Сколько длится диагностика?</summary>
+    <p>Компьютерная — около 45 минут, углублённая диагностика двигателя — до часа.</p>
+  </details>
+</section>
+
+<section class="cta-strip">
+  <div><h2>Готовы записаться?</h2><p>Выберите услугу и удобное время — остальное сделаем мы.</p></div>
+  <a class="btn" href="{% url 'booking' %}">Записаться онлайн</a>
+</section>
+{% endblock %}

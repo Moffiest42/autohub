@@ -1,12 +1,8 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoFix — автосервис</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<script src="js/main.js"></script>
+{% extends 'base.html' %}
+{% block title %}Регистрация — AutoFix{% endblock %}
+{% block content %}
 <h1>Регистрация</h1>
-<form id="register-form" class="auth-form" novalidate>
+<form id="register-form" class="panel auth-form" novalidate>
   <div class="form-field">
     <label for="fullname">ФИО</label>
     <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович">
@@ -38,4 +34,6 @@
   <button type="submit" class="btn">Зарегистрироваться</button>
   <p id="form-success" class="success hidden">✅ Проверка пройдена! Данные корректны.</p>
 </form>
-<p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
+<p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+<p class="muted">Сейчас работает клиентская проверка из ЛР №1. Создание пользователя в БД и хеширование пароля — ЛР №3.</p>
+{% endblock %}
