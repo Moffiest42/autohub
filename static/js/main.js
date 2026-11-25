@@ -1,17 +1,61 @@
-// ================= Страница «Онлайн-запись» =================
+// ===== Тема оформления =====
+const themeBtn = document.getElementById('theme-toggle');
+if (themeBtn) {
+  if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  });
+}
+
+// ===== Показ / скрытие пароля =====
+document.querySelectorAll('.toggle-password').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const input = document.getElementById(btn.dataset.target);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+});
+
+// ===== Общие ошибки полей =====
+function setError(id, message) {
+  const input = document.getElementById(id);
+  const errorEl = document.getElementById(id + '-error');
+  if (errorEl) errorEl.textContent = message;
+  input?.classList.toggle('invalid', Boolean(message));
+}
+
+// ===== Клиентская валидация регистрации (ЛР №1) =====
+const registerForm = document.getElementById('register-form');
+if (registerForm) {
+  registerForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let ok = true;
+    const value = id => document.getElementById(id).value.trim();
+
+    ['fullname', 'email', 'login', 'password', 'password2'].forEach(id => {
+      if (!value(id)) { setError(id, 'Заполните это поле'); ok = false; }
+      else setError(id, '');
+    });
+
+    const email = value('email');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('email', 'Некорректный email, пример: ivan@mail.ru'); ok = false;
+    }
+    const pass = document.getElementById('password').value;
+    if (pass && pass.length < 8) {
+      setError('password', 'Пароль должен быть не короче 8 символов'); ok = false;
+    }
+    const pass2 = document.getElementById('password2').value;
+    if (pass2 && pass !== pass2) {
+      setError('password2', 'Пароли не совпадают'); ok = false;
+    }
+    document.getElementById('form-success').classList.toggle('hidden', !ok);
+  });
+}
+
+// ===== Страница записи: услуги приходят из PostgreSQL =====
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
-  const SERVICES = [
-    { id: 'computer-diagnostics', title: 'Компьютерная диагностика', price: 1800, duration: 45, mechanic: 'Максим Крылов' },
-    { id: 'engine-diagnostics', title: 'Диагностика двигателя', price: 1500, duration: 60, mechanic: 'Андрей Соколов' },
-    { id: 'oil-change', title: 'Замена масла и фильтров', price: 900, duration: 40, mechanic: 'Игорь Лебедев' },
-    { id: 'ac-refill', title: 'Заправка кондиционера', price: 2500, duration: 60, mechanic: 'Игорь Лебедев' },
-    { id: 'brake-repair', title: 'Ремонт тормозной системы', price: 3000, duration: 90, mechanic: 'Сергей Волков' },
-    { id: 'suspension-repair', title: 'Ремонт подвески', price: 4500, duration: 120, mechanic: 'Андрей Соколов' },
-    { id: 'timing-belt', title: 'Замена ремня ГРМ', price: 6000, duration: 180, mechanic: 'Сергей Волков' },
-    { id: 'tire-service', title: 'Шиномонтаж и балансировка', price: 2200, duration: 50, mechanic: 'Дмитрий Орлов' },
-  ];
-
   const serviceSelect = document.getElementById('booking-service');
   const dateInput = document.getElementById('booking-date');
   const slotGrid = document.getElementById('slot-grid');
@@ -22,14 +66,16 @@ if (bookingForm) {
   const successPanel = document.getElementById('booking-success');
   let selectedSlot = null;
 
-  SERVICES.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s.id;
-    opt.textContent = `${s.title} — ${s.price.toLocaleString('ru-RU')} ₽`;
-    serviceSelect.appendChild(opt);
-  });
+  const SERVICES = Array.from(serviceSelect.options)
+    .filter(o => o.value)
+    .map(o => ({
+      id: o.value,
+      title: o.dataset.title,
+      price: Number(o.dataset.price),
+      duration: Number(o.dataset.duration),
+      mechanic: o.dataset.mechanic,
+    }));
 
-  // Предвыбор услуги из каталога: booking.html?service=oil-change
   const preset = new URLSearchParams(location.search).get('service');
   if (preset && SERVICES.some(s => s.id === preset)) serviceSelect.value = preset;
 
@@ -92,7 +138,7 @@ if (bookingForm) {
       box.classList.remove('hidden');
       box.innerHTML = `
         <h3>Последняя заявка</h3>
-        <p class="lb-num">№ ${b.num} <span class="card-badge">Новая</span></p>
+        <p class="lb-num">№ ${b.num} <span class="card-badge">Демо</span></p>
         <p>${b.service}</p>
         <p class="card-meta">${b.date} в ${b.time} · ${b.car}</p>
         <p class="card-price">${b.price}</p>`;
@@ -135,7 +181,7 @@ if (bookingForm) {
     };
     localStorage.setItem('autofix_last_booking', JSON.stringify(booking));
     document.getElementById('success-text').textContent =
-      `Заявка № ${booking.num}: ${booking.service}, ${booking.date} в ${booking.time}. Мастер ${booking.mechanic} свяжется с вами для подтверждения.`;
+      `Заявка № ${booking.num}: ${booking.service}, ${booking.date} в ${booking.time}. Мастер — ${booking.mechanic}.`;
     bookingForm.classList.add('hidden');
     successPanel.classList.remove('hidden');
     renderLastBooking();
@@ -157,7 +203,7 @@ if (bookingForm) {
   renderLastBooking();
 }
 
-// ================= Страница «Контакты» =================
+// ===== Контакты: график работы =====
 const openBadge = document.getElementById('open-badge');
 if (openBadge) {
   const now = new Date();
@@ -173,12 +219,13 @@ if (openBadge) {
   });
 }
 
+// ===== Контакты: счётчики из БД =====
 const statNums = document.querySelectorAll('.stat-num');
 if (statNums.length) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const animate = el => {
     const target = Number(el.dataset.count);
-    if (reduce || !('IntersectionObserver' in window)) { el.textContent = target.toLocaleString('ru-RU'); return; }
+    if (reduce) { el.textContent = target.toLocaleString('ru-RU'); return; }
     const start = performance.now(), dur = 1200;
     const tick = t => {
       const p = Math.min((t - start) / dur, 1);
