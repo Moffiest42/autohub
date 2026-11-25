@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн-запись — AutoFix</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="logo">🔧 AutoFix</a>
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="catalog.html" class="nav-link">Услуги</a>
+      <a href="booking.html" class="nav-link active">Запись</a>
+      <a href="contacts.html" class="nav-link">Контакты</a>
+      <a href="register.html" class="nav-link">Регистрация</a>
+      <a href="login.html" class="nav-link">Вход</a>
+    </nav>
+    <button id="theme-toggle" class="btn btn-outline" type="button">🌙 Тема</button>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <h1>Онлайн-запись на обслуживание</h1>
+      <p>Выберите услугу, удобный день и свободное время — мастер подтвердит запись по телефону.</p>
+      <div class="trust-chips">
+        <span class="chip">⏱ Подтверждение за 15 минут</span>
+        <span class="chip">🛡 Гарантия на работы 1 год</span>
+        <span class="chip">💳 Оплата после ремонта</span>
+      </div>
+    </section>
+
+    <section id="booking-success" class="panel success-panel hidden">
+      <div class="check-circle">✓</div>
+      <h2>Заявка принята!</h2>
+      <p id="success-text"></p>
+      <div class="success-actions">
+        <button id="book-again" class="btn" type="button">Записаться ещё</button>
+        <a class="btn btn-outline" href="catalog.html">В каталог услуг</a>
+      </div>
+      <p class="muted">Учебный демо-режим ЛР №1: заявка сохранена в вашем браузере (localStorage).</p>
+    </section>
+
+    <div class="booking-layout">
+      <form id="booking-form" class="panel booking-form" novalidate>
+        <fieldset class="step">
+          <div class="step-head"><span class="step-num">1</span><h2>Услуга</h2></div>
+          <div class="form-field">
+            <label for="booking-service">Выберите услугу</label>
+            <select id="booking-service" name="service">
+              <option value="">— Выберите услугу —</option>
+            </select>
+            <span class="error" id="booking-service-error"></span>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <div class="step-head"><span class="step-num">2</span><h2>Дата и время</h2></div>
+          <div class="form-field">
+            <label for="booking-date">Дата визита</label>
+            <input type="date" id="booking-date" name="date">
+            <span class="error" id="booking-date-error"></span>
+          </div>
+          <div class="form-field">
+            <span class="field-label">Свободное время</span>
+            <div id="slot-grid" class="slot-grid"></div>
+            <span class="error" id="booking-time-error"></span>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <div class="step-head"><span class="step-num">3</span><h2>Автомобиль и контакты</h2></div>
+          <div class="form-field">
+            <label for="booking-car">Автомобиль (марка, модель, год)</label>
+            <input type="text" id="booking-car" name="car" placeholder="Toyota Camry, 2021">
+            <span class="error" id="booking-car-error"></span>
+          </div>
+          <div class="form-field">
+            <label for="booking-phone">Телефон для подтверждения</label>
+            <input type="tel" id="booking-phone" name="phone" inputmode="tel" placeholder="+7 900 123-45-67">
+            <span class="error" id="booking-phone-error"></span>
+          </div>
+          <div class="form-field">
+            <label for="booking-comment">Комментарий (необязательно)</label>
+            <textarea id="booking-comment" name="comment" rows="3" placeholder="Что беспокоит: стуки, вибрация, ошибка на панели…"></textarea>
+          </div>
+          <label class="check-row">
+            <input type="checkbox" id="booking-agree">
+            <span>Соглашаюсь на обработку персональных данных</span>
+          </label>
+          <span class="error" id="booking-agree-error"></span>
+        </fieldset>
+
+        <button type="submit" class="btn">Записаться на обслуживание</button>
+        <p class="muted">Ответим в течение 15 минут в рабочее время.</p>
+      </form>
+
+      <aside>
+        <div id="booking-summary" class="panel summary-card">
+          <h2>Ваша запись</h2>
+          <div class="summary-row"><span>Услуга</span><span id="sum-service">—</span></div>
+          <div class="summary-row"><span>Мастер</span><span id="sum-mechanic">—</span></div>
+          <div class="summary-row"><span>Дата</span><span id="sum-date">—</span></div>
+          <div class="summary-row"><span>Время</span><span id="sum-time">—</span></div>
+          <div class="summary-row"><span>Длительность</span><span id="sum-duration">—</span></div>
+          <div class="summary-row"><span>Автомобиль</span><span id="sum-car">—</span></div>
+          <div class="summary-total"><span>Итого</span><strong id="sum-price">0 ₽</strong></div>
+          <p class="summary-note">Оплата после выполнения работ. Отмена бесплатно за 2 часа до визита.</p>
+        </div>
+        <div id="last-booking" class="panel last-booking hidden"></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p>© 2026 AutoFix · Учебный проект ПМ.09</p></footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

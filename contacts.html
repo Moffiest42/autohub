@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контакты и команда — AutoFix</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="logo">🔧 AutoFix</a>
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="catalog.html" class="nav-link">Услуги</a>
+      <a href="booking.html" class="nav-link">Запись</a>
+      <a href="contacts.html" class="nav-link active">Контакты</a>
+      <a href="register.html" class="nav-link">Регистрация</a>
+      <a href="login.html" class="nav-link">Вход</a>
+    </nav>
+    <button id="theme-toggle" class="btn btn-outline" type="button">🌙 Тема</button>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <h1>Сервисный центр AutoFix</h1>
+      <p>Полный цикл обслуживания: от компьютерной диагностики до сложного ремонта. Работаем с 2014 года.</p>
+      <span id="open-badge" class="open-badge">● Уточняем график…</span>
+    </section>
+
+    <section class="stats-grid">
+      <div class="panel stat-card"><span class="stat-num" data-count="12">0</span><p class="stat-label">лет работы</p></div>
+      <div class="panel stat-card"><span class="stat-num" data-count="5">0</span><p class="stat-label">механиков в команде</p></div>
+      <div class="panel stat-card"><span class="stat-num" data-count="8">0</span><p class="stat-label">направлений услуг</p></div>
+      <div class="panel stat-card"><span class="stat-num" data-count="14800">0</span><span class="stat-plus">+</span><p class="stat-label">выполненных работ</p></div>
+    </section>
+
+    <h2 class="section-title">Наши механики</h2>
+    <section class="team-grid">
+      <article class="panel mechanic-card">
+        <div class="avatar av-1">АС</div>
+        <h3>Андрей Соколов</h3>
+        <div class="tags"><span class="tag">Двигатели</span><span class="tag">Подвеска</span></div>
+        <div class="exp-bar"><div class="exp-fill" style="width:67%"></div></div>
+        <p class="exp-label">Стаж 8 лет</p>
+        <a class="btn btn-small" href="booking.html?service=engine-diagnostics">Записаться</a>
+      </article>
+      <article class="panel mechanic-card">
+        <div class="avatar av-2">ИЛ</div>
+        <h3>Игорь Лебедев</h3>
+        <div class="tags"><span class="tag">ТО</span><span class="tag">Климат</span></div>
+        <div class="exp-bar"><div class="exp-fill" style="width:42%"></div></div>
+        <p class="exp-label">Стаж 5 лет</p>
+        <a class="btn btn-small" href="booking.html?service=oil-change">Записаться</a>
+      </article>
+      <article class="panel mechanic-card">
+        <div class="avatar av-3">СВ</div>
+        <h3>Сергей Волков</h3>
+        <div class="tags"><span class="tag">Тормоза</span><span class="tag">ГРМ</span></div>
+        <div class="exp-bar"><div class="exp-fill" style="width:83%"></div></div>
+        <p class="exp-label">Стаж 10 лет</p>
+        <a class="btn btn-small" href="booking.html?service=brake-repair">Записаться</a>
+      </article>
+      <article class="panel mechanic-card">
+        <div class="avatar av-4">ДО</div>
+        <h3>Дмитрий Орлов</h3>
+        <div class="tags"><span class="tag">Шиномонтаж</span><span class="tag">Балансировка</span></div>
+        <div class="exp-bar"><div class="exp-fill" style="width:50%"></div></div>
+        <p class="exp-label">Стаж 6 лет</p>
+        <a class="btn btn-small" href="booking.html?service=tire-service">Записаться</a>
+      </article>
+      <article class="panel mechanic-card">
+        <div class="avatar av-5">МК</div>
+        <h3>Максим Крылов</h3>
+        <div class="tags"><span class="tag">Электрика</span><span class="tag">Диагностика</span></div>
+        <div class="exp-bar"><div class="exp-fill" style="width:58%"></div></div>
+        <p class="exp-label">Стаж 7 лет</p>
+        <a class="btn btn-small" href="booking.html?service=computer-diagnostics">Записаться</a>
+      </article>
+    </section>
+
+    <section class="info-grid">
+      <div class="panel info-card">
+        <h3>📍 Адрес</h3>
+        <p>г. Москва, ул. Механиков, 15, стр. 2</p>
+        <p class="card-meta">Въезд со стороны дублёра, ориентир — синие ворота</p>
+      </div>
+      <div class="panel info-card">
+        <h3>📞 Связь</h3>
+        <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+        <a href="mailto:service@autofix.ru">service@autofix.ru</a>
+      </div>
+      <div class="panel info-card">
+        <h3>🕒 Часы работы</h3>
+        <table class="hours-table">
+          <tr data-days="1,2,3,4,5"><td>Пн–Пт</td><td>09:00–19:00</td></tr>
+          <tr data-days="6"><td>Суббота</td><td>10:00–17:00</td></tr>
+          <tr data-days="0"><td>Воскресенье</td><td>выходной</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel map-card">
+      <span class="map-pin">📍</span>
+      <h3>Как добраться</h3>
+      <p>5 минут пешком от ост. «Заводская», парковка для клиентов бесплатная.</p>
+      <a class="btn btn-small" href="https://yandex.ru/maps/?text=Москва, улица Механиков, 15" target="_blank" rel="noopener">Открыть в Яндекс.Картах</a>
+    </section>
+
+    <h2 class="section-title">Частые вопросы</h2>
+    <section class="faq">
+      <details>
+        <summary>Нужна ли предварительная запись?</summary>
+        <p>Да, так мы гарантируем свободный пост и нужного мастера. Через онлайн-запись это занимает минуту — подтвердим по телефону в течение 15 минут в рабочее время.</p>
+      </details>
+      <details>
+        <summary>Даёте ли гарантию на работы?</summary>
+        <p>На все работы — 1 год или 20 000 км пробега. На запчасти действует гарантия производителя, документы выдаём вместе с заказ-нарядом.</p>
+      </details>
+      <details>
+        <summary>Можно ли приехать со своими запчастями?</summary>
+        <p>Можно. Мастер проверит совместимость перед установкой. Обратите внимание: гарантия в этом случае распространяется только на работу, но не на деталь.</p>
+      </details>
+      <details>
+        <summary>Сколько длится диагностика?</summary>
+        <p>Компьютерная — около 45 минут, углублённая диагностика двигателя — до часа. По итогам вы получите список неисправностей с ценами до начала любого ремонта.</p>
+      </details>
+    </section>
+
+    <section class="cta-strip">
+      <div>
+        <h2>Готовы записаться?</h2>
+        <p>Выберите услугу и удобное время — остальное сделаем мы.</p>
+      </div>
+      <a class="btn" href="booking.html">Записаться онлайн</a>
+    </section>
+  </main>
+
+  <footer class="site-footer"><p>© 2026 AutoFix · Учебный проект ПМ.09</p></footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
