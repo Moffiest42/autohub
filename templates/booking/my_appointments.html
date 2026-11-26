@@ -5,6 +5,7 @@
   <h1>Мои записи на обслуживание</h1>
   <p>{{ user.full_name }} · заявок: {{ appointments|length }}. Здесь видны только ваши заявки.</p>
 </section>
+
 <a class="btn" href="{% url 'booking' %}">+ Новая запись</a>
 
 <section class="card-grid appointment-grid">
@@ -12,11 +13,25 @@
   <article class="card">
     <span class="status-badge status-{{ a.status|lower }}">{{ a.get_status_display }}</span>
     <h3>{{ a.service.title }}</h3>
-    <p class="card-meta">Мастер: {{ a.service.mechanic.full_name }}</p>
-    <p>{{ a.date|date:"d.m.Y" }} в {{ a.time|time:"H:i" }}</p>
-    <p class="card-meta">Авто: {{ a.car_info }}</p>
+
+    <p class="card-meta meta-line">
+      <span class="icon icon-sm">{% include 'icons/wrench.svg' %}</span>
+      Мастер: {{ a.service.mechanic.full_name }}
+    </p>
+
+    <p class="meta-line">
+      <span class="icon icon-sm">{% include 'icons/calendar.svg' %}</span>
+      {{ a.date|date:"d.m.Y" }} в {{ a.time|time:"H:i" }}
+    </p>
+
+    <p class="card-meta meta-line">
+      <span class="icon icon-sm">{% include 'icons/car.svg' %}</span>
+      {{ a.car_info }}
+    </p>
+
     <p class="card-price">{{ a.service.price|floatformat:0 }} ₽</p>
     <p class="muted">Заявка №{{ a.pk }} от {{ a.created_at|date:"d.m.Y H:i" }}</p>
+
     {% if a.status == 'NEW' %}
     <div class="card-actions">
       <a class="btn btn-small" href="{% url 'appointment_update' a.pk %}">Изменить</a>
@@ -30,6 +45,7 @@
   </article>
   {% empty %}
   <div class="empty-state">
+    <span class="icon icon-2xl">{% include 'icons/calendar.svg' %}</span>
     <p>У вас пока нет заявок.</p>
     <a class="btn btn-outline" href="{% url 'service_list' %}">Выбрать услугу</a>
   </div>
