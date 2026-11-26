@@ -30,7 +30,7 @@
   {% for s in latest_services %}
   <article class="card">
     {% if s.image %}<img class="card-photo" src="{{ s.image.url }}" alt="{{ s.title }}">
-    {% else %}<div class="card-img">🔧</div>{% endif %}
+    {% else %}<div class="card-img"><span class="icon icon-2xl">{% include 'icons/wrench.svg' %}</span></div>{% endif %}
     <span class="card-badge">{{ s.category.name }}</span>
     <h3>{{ s.title }}</h3>
     <p class="card-meta">{{ s.mechanic.full_name }} · {{ s.duration_minutes }} мин</p>

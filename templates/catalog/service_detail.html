@@ -10,7 +10,7 @@
 <div class="detail-grid">
   <div class="panel detail-media">
     {% if service.image %}<img class="detail-photo" src="{{ service.image.url }}" alt="{{ service.title }}">
-    {% else %}<div class="detail-emoji">🔧</div>{% endif %}
+    {% else %}<div class="detail-placeholder"><span class="icon icon-3xl">{% include 'icons/wrench.svg' %}</span></div>{% endif %}
   </div>
   <div class="panel detail-info">
     <span class="card-badge">{{ service.category.name }}</span>

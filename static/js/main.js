@@ -12,7 +12,11 @@ if (themeBtn) {
 document.querySelectorAll('.toggle-password').forEach(btn => {
   btn.addEventListener('click', () => {
     const input = document.getElementById(btn.dataset.target);
-    if (input) input.type = input.type === 'password' ? 'text' : 'password';
+    if (!input) return;
+    const visible = input.type === 'password';
+    input.type = visible ? 'text' : 'password';
+    btn.classList.toggle('is-visible', visible);
+    btn.setAttribute('aria-label', visible ? 'Скрыть пароль' : 'Показать пароль');
   });
 });
 

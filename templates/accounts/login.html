@@ -13,7 +13,10 @@
     {% if field.name == 'password' %}
       <div class="password-wrap">
         {{ field }}
-        <button type="button" class="toggle-password" data-target="{{ field.id_for_label }}">👁</button>
+        <button type="button" class="toggle-password" data-target="{{ field.id_for_label }}" aria-label="Показать пароль">
+  <span class="icon icon-eye">{% include 'icons/eye.svg' %}</span>
+  <span class="icon icon-eye-off">{% include 'icons/eye-off.svg' %}</span>
+</button>
       </div>
     {% else %}
       {{ field }}

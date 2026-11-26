@@ -4,11 +4,11 @@
 <section class="page-hero">
   <h1>{% if editing %}Изменить заявку №{{ editing.pk }}{% else %}Онлайн-запись на обслуживание{% endif %}</h1>
   <p>Заявка сохранится в PostgreSQL и появится в разделе «Мои записи». Клиент: {{ user.full_name }}.</p>
-  <div class="trust-chips">
-    <span class="chip">⏱ Подтверждение за 15 минут</span>
-    <span class="chip">🛡 Гарантия на работы 1 год</span>
-    <span class="chip">💳 Оплата после ремонта</span>
-  </div>
+<div class="trust-chips">
+  <span class="chip"><span class="icon icon-sm">{% include 'icons/clock.svg' %}</span> Подтверждение за 15 минут</span>
+  <span class="chip"><span class="icon icon-sm">{% include 'icons/shield.svg' %}</span> Гарантия на работы 1 год</span>
+  <span class="chip"><span class="icon icon-sm">{% include 'icons/card.svg' %}</span> Оплата после ремонта</span>
+</div>
 </section>
 
 <div class="booking-layout">
