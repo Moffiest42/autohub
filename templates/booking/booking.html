@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}{% if editing %}Изменение заявки{% else %}Онлайн-запись{% endif %} — AutoFix{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <h1>{% if editing %}Изменить заявку №{{ editing.pk }}{% else %}Онлайн-запись на обслуживание{% endif %}</h1>
+  <p>Заявка сохранится в PostgreSQL и появится в разделе «Мои записи». Клиент: {{ user.full_name }}.</p>
+  <div class="trust-chips">
+    <span class="chip">⏱ Подтверждение за 15 минут</span>
+    <span class="chip">🛡 Гарантия на работы 1 год</span>
+    <span class="chip">💳 Оплата после ремонта</span>
+  </div>
+</section>
+
+<div class="booking-layout">
+  <form id="booking-form" method="post" class="panel booking-form" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-error">{{ form.non_field_errors }}</div>{% endif %}
+
+    <fieldset class="step">
+      <div class="step-head"><span class="step-num">1</span><h2>Услуга</h2></div>
+      <div class="form-field">
+        <label for="{{ form.service.id_for_label }}">Выберите услугу</label>
+        <select name="{{ form.service.html_name }}" id="{{ form.service.id_for_label }}">
+          <option value="">— Выберите услугу —</option>
+          {% for s in form.fields.service.queryset %}
+          <option value="{{ s.pk }}"
+                  data-title="{{ s.title }}"
+                  data-price="{{ s.price|stringformat:'s' }}"
+                  data-duration="{{ s.duration_minutes }}"
+                  data-mechanic="{{ s.mechanic.full_name }}"
+                  {% if form.service.value|stringformat:'s' == s.pk|stringformat:'s' %}selected{% endif %}>
+            {{ s.title }} — {{ s.price|floatformat:0 }} ₽
+          </option>
+          {% endfor %}
+        </select>
+        <span class="error" id="booking-service-error">{% for e in form.service.errors %}{{ e }}{% endfor %}</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="step">
+      <div class="step-head"><span class="step-num">2</span><h2>Дата и время</h2></div>
+      {{ form.date }}
+      {{ form.time }}
+      <div class="form-field">
+        <label for="booking-date-picker">Дата визита</label>
+        <input type="date" id="booking-date-picker">
+        <span class="error" id="booking-date-error">{% for e in form.date.errors %}{{ e }}{% endfor %}</span>
+      </div>
+      <div class="form-field">
+        <span class="field-label">Свободное время</span>
+        <div id="slot-grid" class="slot-grid"></div>
+        <span class="error" id="booking-time-error">{% for e in form.time.errors %}{{ e }}{% endfor %}</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="step">
+      <div class="step-head"><span class="step-num">3</span><h2>Автомобиль и контакты</h2></div>
+      <div class="form-field">
+        <label for="{{ form.car_info.id_for_label }}">Автомобиль (марка, модель, год)</label>
+        <input type="text" name="{{ form.car_info.html_name }}" id="{{ form.car_info.id_for_label }}"
+               value="{{ form.car_info.value|default:'' }}" placeholder="Toyota Camry, 2021">
+        <span class="error" id="booking-car-error">{% for e in form.car_info.errors %}{{ e }}{% endfor %}</span>
+      </div>
+      <div class="form-field">
+        <label for="{{ form.phone.id_for_label }}">Телефон для подтверждения</label>
+        <input type="tel" name="{{ form.phone.html_name }}" id="{{ form.phone.id_for_label }}"
+               value="{{ form.phone.value|default:'' }}" inputmode="tel" placeholder="+7 900 123-45-67">
+        <span class="error" id="booking-phone-error">{% for e in form.phone.errors %}{{ e }}{% endfor %}</span>
+      </div>
+      <div class="form-field">
+        <label for="{{ form.comment.id_for_label }}">Комментарий (необязательно)</label>
+        <textarea name="{{ form.comment.html_name }}" id="{{ form.comment.id_for_label }}" rows="3"
+                  placeholder="Что беспокоит: стуки, вибрация, ошибка на панели…">{{ form.comment.value|default:'' }}</textarea>
+      </div>
+      <label class="check-row">
+        <input type="checkbox" id="booking-agree" {% if editing %}checked{% endif %}>
+        <span>Соглашаюсь на обработку персональных данных</span>
+      </label>
+      <span class="error" id="booking-agree-error"></span>
+    </fieldset>
+
+    <button type="submit" class="btn">{% if editing %}Сохранить изменения{% else %}Записаться на обслуживание{% endif %}</button>
+    <p class="muted">Заявка сохраняется на сервере. Статус можно отслеживать в «Моих записях».</p>
+  </form>
+
+  <aside>
+    <div id="booking-summary" class="panel summary-card">
+      <h2>Ваша запись</h2>
+      <div class="summary-row"><span>Услуга</span><span id="sum-service">—</span></div>
+      <div class="summary-row"><span>Мастер</span><span id="sum-mechanic">—</span></div>
+      <div class="summary-row"><span>Дата</span><span id="sum-date">—</span></div>
+      <div class="summary-row"><span>Время</span><span id="sum-time">—</span></div>
+      <div class="summary-row"><span>Длительность</span><span id="sum-duration">—</span></div>
+      <div class="summary-row"><span>Автомобиль</span><span id="sum-car">—</span></div>
+      <div class="summary-total"><span>Итого</span><strong id="sum-price">0 ₽</strong></div>
+      <p class="summary-note">Оплата после выполнения работ. Отмена бесплатно за 2 часа до визита.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

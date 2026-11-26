@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Отмена заявки — AutoFix{% endblock %}
+{% block content %}
+<div class="panel confirm-panel">
+  <h1>Отменить заявку №{{ appointment.pk }}?</h1>
+  <p><strong>{{ appointment.service.title }}</strong> — {{ appointment.date|date:"d.m.Y" }} в {{ appointment.time|time:"H:i" }}</p>
+  <p class="muted">Заявка будет удалена из базы данных.</p>
+  <form method="post" class="form-actions">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Да, отменить</button>
+    <a class="btn btn-outline" href="{% url 'my_appointments' %}">Назад</a>
+  </form>
+</div>
+{% endblock %}

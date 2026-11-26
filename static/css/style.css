@@ -267,3 +267,19 @@ html { scrollbar-color: var(--accent) var(--bg); scrollbar-width: thin; }
 @media (max-width: 900px) {
   .detail-grid { grid-template-columns: 1fr; }
 }
+/* ===== ЛР №3: статусы, админ-таблица, выход ===== */
+.logout-form { display: inline; }
+.appointment-grid { margin-top: 18px; }
+.status-badge { align-self: flex-start; font-size: .78rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); }
+.status-new { color: var(--accent); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.status-confirmed { color: #2f9e44; border-color: #2f9e44; background: color-mix(in srgb, #2f9e44 12%, transparent); }
+.status-in_progress { color: #e8590c; border-color: #e8590c; background: color-mix(in srgb, #e8590c 12%, transparent); }
+.status-done { color: #6741d9; border-color: #6741d9; background: color-mix(in srgb, #6741d9 12%, transparent); }
+.status-cancelled { color: #e03131; border-color: #e03131; background: color-mix(in srgb, #e03131 10%, transparent); }
+.admin-table { width: 100%; border-collapse: collapse; background: var(--surface); margin-top: 16px; }
+.admin-table th, .admin-table td { padding: 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+.status-form { display: flex; gap: 6px; align-items: center; }
+.status-form select { padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
+@media (max-width: 900px) {
+  .admin-table { display: block; overflow-x: auto; }
+}

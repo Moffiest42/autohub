@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Мои записи — AutoFix{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <h1>Мои записи на обслуживание</h1>
+  <p>{{ user.full_name }} · заявок: {{ appointments|length }}. Здесь видны только ваши заявки.</p>
+</section>
+<a class="btn" href="{% url 'booking' %}">+ Новая запись</a>
+
+<section class="card-grid appointment-grid">
+  {% for a in appointments %}
+  <article class="card">
+    <span class="status-badge status-{{ a.status|lower }}">{{ a.get_status_display }}</span>
+    <h3>{{ a.service.title }}</h3>
+    <p class="card-meta">Мастер: {{ a.service.mechanic.full_name }}</p>
+    <p>{{ a.date|date:"d.m.Y" }} в {{ a.time|time:"H:i" }}</p>
+    <p class="card-meta">Авто: {{ a.car_info }}</p>
+    <p class="card-price">{{ a.service.price|floatformat:0 }} ₽</p>
+    <p class="muted">Заявка №{{ a.pk }} от {{ a.created_at|date:"d.m.Y H:i" }}</p>
+    {% if a.status == 'NEW' %}
+    <div class="card-actions">
+      <a class="btn btn-small" href="{% url 'appointment_update' a.pk %}">Изменить</a>
+      <a class="btn btn-small btn-danger" href="{% url 'appointment_delete' a.pk %}">Отменить</a>
+    </div>
+    {% elif a.status == 'CONFIRMED' %}
+    <div class="card-actions">
+      <a class="btn btn-small btn-outline" href="{% url 'appointment_delete' a.pk %}">Отменить</a>
+    </div>
+    {% endif %}
+  </article>
+  {% empty %}
+  <div class="empty-state">
+    <p>У вас пока нет заявок.</p>
+    <a class="btn btn-outline" href="{% url 'service_list' %}">Выбрать услугу</a>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}

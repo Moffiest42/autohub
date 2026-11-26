@@ -7,7 +7,19 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ServiceForm
 from .models import Category, Mechanic, Service
+from accounts.decorators import admin_required
 
+@admin_required
+def service_create(request):
+    ...  # тело функции без изменений
+
+@admin_required
+def service_update(request, pk):
+    ...
+
+@admin_required
+def service_delete(request, pk):
+    ...
 
 def home(request):
     return render(request, 'home.html', {
@@ -97,10 +109,6 @@ def service_delete(request, pk):
     return render(request, 'catalog/service_confirm_delete.html', {'service': service})
 
 
-def booking(request):
-    return render(request, 'booking.html', {
-        'services': Service.objects.select_related('mechanic').order_by('title'),
-    })
 
 
 def contacts(request):

@@ -11,7 +11,9 @@
   {% if active_category %}<input type="hidden" name="category" value="{{ active_category }}">{% endif %}
   {% if active_mechanic %}<input type="hidden" name="mechanic" value="{{ active_mechanic.pk }}">{% endif %}
   <button class="btn" type="submit">Найти</button>
+{% if user.is_admin_role %}
   <a class="btn btn-outline" href="{% url 'service_create' %}">+ Добавить услугу</a>
+{% endif %}
 </form>
 
 <div class="tabs">

@@ -12,7 +12,7 @@ if (themeBtn) {
 document.querySelectorAll('.toggle-password').forEach(btn => {
   btn.addEventListener('click', () => {
     const input = document.getElementById(btn.dataset.target);
-    input.type = input.type === 'password' ? 'text' : 'password';
+    if (input) input.type = input.type === 'password' ? 'text' : 'password';
   });
 });
 
@@ -24,47 +24,18 @@ function setError(id, message) {
   input?.classList.toggle('invalid', Boolean(message));
 }
 
-// ===== Клиентская валидация регистрации (ЛР №1) =====
-const registerForm = document.getElementById('register-form');
-if (registerForm) {
-  registerForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    let ok = true;
-    const value = id => document.getElementById(id).value.trim();
-
-    ['fullname', 'email', 'login', 'password', 'password2'].forEach(id => {
-      if (!value(id)) { setError(id, 'Заполните это поле'); ok = false; }
-      else setError(id, '');
-    });
-
-    const email = value('email');
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('email', 'Некорректный email, пример: ivan@mail.ru'); ok = false;
-    }
-    const pass = document.getElementById('password').value;
-    if (pass && pass.length < 8) {
-      setError('password', 'Пароль должен быть не короче 8 символов'); ok = false;
-    }
-    const pass2 = document.getElementById('password2').value;
-    if (pass2 && pass !== pass2) {
-      setError('password2', 'Пароли не совпадают'); ok = false;
-    }
-    document.getElementById('form-success').classList.toggle('hidden', !ok);
-  });
-}
-
-// ===== Страница записи: услуги приходят из PostgreSQL =====
+// ===== Онлайн-запись: серверная форма + удобный выбор слота =====
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
-  const serviceSelect = document.getElementById('booking-service');
-  const dateInput = document.getElementById('booking-date');
+  const serviceSelect = document.getElementById('id_service');
+  const hiddenDate = document.getElementById('id_date');
+  const hiddenTime = document.getElementById('id_time');
+  const datePicker = document.getElementById('booking-date-picker');
   const slotGrid = document.getElementById('slot-grid');
-  const carInput = document.getElementById('booking-car');
-  const phoneInput = document.getElementById('booking-phone');
+  const carInput = document.getElementById('id_car_info');
+  const phoneInput = document.getElementById('id_phone');
   const agreeInput = document.getElementById('booking-agree');
   const summary = document.getElementById('booking-summary');
-  const successPanel = document.getElementById('booking-success');
-  let selectedSlot = null;
 
   const SERVICES = Array.from(serviceSelect.options)
     .filter(o => o.value)
@@ -76,12 +47,18 @@ if (bookingForm) {
       mechanic: o.dataset.mechanic,
     }));
 
-  const preset = new URLSearchParams(location.search).get('service');
-  if (preset && SERVICES.some(s => s.id === preset)) serviceSelect.value = preset;
-
   const now = new Date();
   const todayISO = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-  dateInput.min = todayISO;
+  datePicker.min = todayISO;
+
+  // Восстановление значений после серверной ошибки валидации
+  if (hiddenDate.value) datePicker.value = hiddenDate.value;
+
+  // Предвыбор услуги из каталога: /booking/?service=<id>
+  const preset = new URLSearchParams(location.search).get('service');
+  if (!serviceSelect.value && preset && SERVICES.some(s => s.id === preset)) {
+    serviceSelect.value = preset;
+  }
 
   const fmtPrice = n => n.toLocaleString('ru-RU') + ' ₽';
   const currentService = () => SERVICES.find(s => s.id === serviceSelect.value) || null;
@@ -89,13 +66,19 @@ if (bookingForm) {
 
   function renderSlots() {
     slotGrid.innerHTML = '';
-    selectedSlot = null;
-    if (!dateInput.value) {
+    if (!datePicker.value) {
       slotGrid.innerHTML = '<p class="slot-hint">Сначала выберите дату визита</p>';
       return;
     }
-    const seed = dateInput.value.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-    for (let h = 9; h <= 18; h++) {
+    const day = new Date(datePicker.value + 'T00:00').getDay();
+    if (day === 0) {
+      slotGrid.innerHTML = '<p class="slot-hint">Воскресенье — выходной. Выберите другой день.</p>';
+      return;
+    }
+    const startH = day === 6 ? 10 : 9;
+    const endH = day === 6 ? 16 : 18;
+    const seed = datePicker.value.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+    for (let h = startH; h <= endH; h++) {
       const time = `${String(h).padStart(2, '0')}:00`;
       const busy = (h + seed) % 4 === 0;
       const btn = document.createElement('button');
@@ -107,10 +90,13 @@ if (bookingForm) {
       else btn.addEventListener('click', () => {
         slotGrid.querySelectorAll('.slot').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        selectedSlot = time;
+        hiddenTime.value = time;
         setError('booking-time', '');
         updateSummary();
       });
+      if (hiddenTime.value === time && !busy) {
+        btn.classList.add('selected');
+      }
       slotGrid.appendChild(btn);
     }
   }
@@ -120,8 +106,8 @@ if (bookingForm) {
     document.getElementById('sum-service').textContent = s ? s.title : '—';
     document.getElementById('sum-mechanic').textContent = s ? s.mechanic : '—';
     document.getElementById('sum-duration').textContent = s ? `≈ ${s.duration} мин` : '—';
-    document.getElementById('sum-date').textContent = dateInput.value ? fmtDate(dateInput.value) : '—';
-    document.getElementById('sum-time').textContent = selectedSlot || '—';
+    document.getElementById('sum-date').textContent = datePicker.value ? fmtDate(datePicker.value) : '—';
+    document.getElementById('sum-time').textContent = hiddenTime.value || '—';
     document.getElementById('sum-car').textContent = carInput.value.trim() || '—';
     document.getElementById('sum-price').textContent = s ? fmtPrice(s.price) : '0 ₽';
     summary.classList.remove('pulse');
@@ -129,78 +115,37 @@ if (bookingForm) {
     summary.classList.add('pulse');
   }
 
-  function renderLastBooking() {
-    const box = document.getElementById('last-booking');
-    try {
-      const raw = localStorage.getItem('autofix_last_booking');
-      if (!raw) { box.classList.add('hidden'); return; }
-      const b = JSON.parse(raw);
-      box.classList.remove('hidden');
-      box.innerHTML = `
-        <h3>Последняя заявка</h3>
-        <p class="lb-num">№ ${b.num} <span class="card-badge">Демо</span></p>
-        <p>${b.service}</p>
-        <p class="card-meta">${b.date} в ${b.time} · ${b.car}</p>
-        <p class="card-price">${b.price}</p>`;
-    } catch {
-      localStorage.removeItem('autofix_last_booking');
-      box.classList.add('hidden');
-    }
-  }
-
+  datePicker.addEventListener('change', () => {
+    hiddenDate.value = datePicker.value;
+    hiddenTime.value = '';
+    setError('booking-date', '');
+    setError('booking-time', '');
+    renderSlots();
+    updateSummary();
+  });
   serviceSelect.addEventListener('change', () => { setError('booking-service', ''); updateSummary(); });
-  dateInput.addEventListener('change', () => { setError('booking-date', ''); renderSlots(); updateSummary(); });
   carInput.addEventListener('input', () => { setError('booking-car', ''); updateSummary(); });
   phoneInput.addEventListener('input', () => setError('booking-phone', ''));
   agreeInput.addEventListener('change', () => setError('booking-agree', ''));
 
   bookingForm.addEventListener('submit', (e) => {
-    e.preventDefault();
     let ok = true;
-    const s = currentService();
-    if (!s) { setError('booking-service', 'Выберите услугу'); ok = false; }
-    if (!dateInput.value) { setError('booking-date', 'Выберите дату'); ok = false; }
-    else if (dateInput.value < todayISO) { setError('booking-date', 'Эта дата уже прошла'); ok = false; }
-    if (!selectedSlot) { setError('booking-time', 'Выберите свободное время'); ok = false; }
+    if (!serviceSelect.value) { setError('booking-service', 'Выберите услугу'); ok = false; }
+    if (!datePicker.value) { setError('booking-date', 'Выберите дату'); ok = false; }
+    else if (datePicker.value < todayISO) { setError('booking-date', 'Эта дата уже прошла'); ok = false; }
+    if (!hiddenTime.value) { setError('booking-time', 'Выберите свободное время'); ok = false; }
     if (carInput.value.trim().length < 3) { setError('booking-car', 'Укажите марку, модель и год'); ok = false; }
     const digits = phoneInput.value.replace(/\D/g, '');
     if (!(digits.length === 11 && (digits[0] === '7' || digits[0] === '8'))) {
       setError('booking-phone', 'Формат: +7 900 123-45-67'); ok = false;
     }
     if (!agreeInput.checked) { setError('booking-agree', 'Нужно согласие на обработку данных'); ok = false; }
-    if (!ok) return;
-
-    const booking = {
-      num: 'AF-' + String(Date.now()).slice(-6),
-      service: s.title,
-      mechanic: s.mechanic,
-      date: new Date(dateInput.value + 'T00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }),
-      time: selectedSlot,
-      car: carInput.value.trim(),
-      price: fmtPrice(s.price),
-    };
-    localStorage.setItem('autofix_last_booking', JSON.stringify(booking));
-    document.getElementById('success-text').textContent =
-      `Заявка № ${booking.num}: ${booking.service}, ${booking.date} в ${booking.time}. Мастер — ${booking.mechanic}.`;
-    bookingForm.classList.add('hidden');
-    successPanel.classList.remove('hidden');
-    renderLastBooking();
-    successPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  document.getElementById('book-again').addEventListener('click', () => {
-    bookingForm.reset();
-    ['booking-service', 'booking-date', 'booking-time', 'booking-car', 'booking-phone', 'booking-agree']
-      .forEach(id => setError(id, ''));
-    successPanel.classList.add('hidden');
-    bookingForm.classList.remove('hidden');
-    renderSlots();
-    updateSummary();
+    // При ошибках блокируем отправку; при успехе форма уходит на сервер обычным POST
+    if (!ok) e.preventDefault();
   });
 
   renderSlots();
   updateSummary();
-  renderLastBooking();
 }
 
 // ===== Контакты: график работы =====
@@ -219,7 +164,7 @@ if (openBadge) {
   });
 }
 
-// ===== Контакты: счётчики из БД =====
+// ===== Контакты: счётчики =====
 const statNums = document.querySelectorAll('.stat-num');
 if (statNums.length) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -24,8 +24,10 @@
     <p class="detail-description">{{ service.description|default:"Описание пока не заполнено."|linebreaksbr }}</p>
     <div class="form-actions">
       <a class="btn" href="{% url 'booking' %}?service={{ service.pk }}">Записаться</a>
-      <a class="btn btn-outline" href="{% url 'service_update' service.pk %}">Редактировать</a>
-      <a class="btn btn-danger" href="{% url 'service_delete' service.pk %}">Удалить</a>
+      {% if user.is_admin_role %}
+  <a class="btn btn-outline" href="{% url 'service_update' service.pk %}">Редактировать</a>
+  <a class="btn btn-danger" href="{% url 'service_delete' service.pk %}">Удалить</a>
+{% endif %}
     </div>
   </div>
 </div>
