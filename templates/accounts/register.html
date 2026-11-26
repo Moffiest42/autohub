@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация — AutoFix{% endblock %}
+{% block content %}
+<h1>Регистрация</h1>
+<p class="muted">Данные проверяются на сервере, пароль сохраняется в виде хеша.</p>
+<form method="post" class="panel auth-form" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert alert-error">{{ form.non_field_errors }}</div>{% endif %}
+  {% for field in form %}
+  <div class="form-field">
+    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+    {% if field.name == 'password1' or field.name == 'password2' %}
+      <div class="password-wrap">
+        {{ field }}
+        <button type="button" class="toggle-password" data-target="{{ field.id_for_label }}">👁</button>
+      </div>
+    {% else %}
+      {{ field }}
+    {% endif %}
+    {% if field.help_text %}<span class="help-text">{{ field.help_text }}</span>{% endif %}
+    {% for error in field.errors %}<span class="error">{{ error }}</span>{% endfor %}
+  </div>
+  {% endfor %}
+  <button class="btn" type="submit">Зарегистрироваться</button>
+</form>
+<p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+{% endblock %}

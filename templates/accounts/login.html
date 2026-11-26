@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Вход — AutoFix{% endblock %}
+{% block content %}
+<h1>Вход</h1>
+<form method="post" class="panel auth-form" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div class="alert alert-error">{{ form.non_field_errors.0 }}</div>
+  {% endif %}
+  {% for field in form %}
+  <div class="form-field">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% if field.name == 'password' %}
+      <div class="password-wrap">
+        {{ field }}
+        <button type="button" class="toggle-password" data-target="{{ field.id_for_label }}">👁</button>
+      </div>
+    {% else %}
+      {{ field }}
+    {% endif %}
+    {% for error in field.errors %}<span class="error">{{ error }}</span>{% endfor %}
+  </div>
+  {% endfor %}
+  <button class="btn" type="submit">Войти</button>
+</form>
+<p>Нет аккаунта? <a href="{% url 'register' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Зарегистрироваться</a></p>
+{% endblock %}
