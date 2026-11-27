@@ -5,5 +5,191 @@
   "fields": {
     "name": "Диагностика"
   }
+},
+{
+  "model": "catalog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Техническое обслуживание"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Ремонт"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 4,
+  "fields": {
+    "name": "Шиномонтаж"
+  }
+},
+{
+  "model": "catalog.mechanic",
+  "pk": 1,
+  "fields": {
+    "full_name": "Андрей Соколов",
+    "specialization": "Двигатели и подвеска",
+    "experience": 8
+  }
+},
+{
+  "model": "catalog.mechanic",
+  "pk": 2,
+  "fields": {
+    "full_name": "Игорь Лебедев",
+    "specialization": "ТО и климат",
+    "experience": 5
+  }
+},
+{
+  "model": "catalog.mechanic",
+  "pk": 3,
+  "fields": {
+    "full_name": "Сергей Волков",
+    "specialization": "Тормоза и ГРМ",
+    "experience": 10
+  }
+},
+{
+  "model": "catalog.mechanic",
+  "pk": 4,
+  "fields": {
+    "full_name": "Дмитрий Орлов",
+    "specialization": "Шиномонтаж и балансировка",
+    "experience": 6
+  }
+},
+{
+  "model": "catalog.mechanic",
+  "pk": 5,
+  "fields": {
+    "full_name": "Максим Крылов",
+    "specialization": "Электрика и диагностика",
+    "experience": 7
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 1,
+  "fields": {
+    "title": "Компьютерная диагностика",
+    "category": 1,
+    "mechanic": 5,
+    "price": "1800.00",
+    "duration_minutes": 45,
+    "description": "Считывание ошибок всеми блоками управления, проверка датчиков и проводки. По итогам — список неисправностей с ценами до начала ремонта.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.480Z",
+    "updated_at": "2026-11-27T12:08:37.480Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 2,
+  "fields": {
+    "title": "Диагностика двигателя",
+    "category": 1,
+    "mechanic": 1,
+    "price": "1500.00",
+    "duration_minutes": 60,
+    "description": "Проверка компрессии, состояния свечей, ремней и течей. Заключение о состоянии двигателя с рекомендациями.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.488Z",
+    "updated_at": "2026-11-27T12:08:37.488Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 3,
+  "fields": {
+    "title": "Замена масла и фильтров",
+    "category": 2,
+    "mechanic": 2,
+    "price": "900.00",
+    "duration_minutes": 40,
+    "description": "Замена моторного масла, масляного и воздушного фильтров. Проверка уровня остальных жидкостей бесплатно.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.490Z",
+    "updated_at": "2026-11-27T12:08:37.490Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 4,
+  "fields": {
+    "title": "Заправка кондиционера",
+    "category": 2,
+    "mechanic": 2,
+    "price": "2500.00",
+    "duration_minutes": 60,
+    "description": "Вакуумирование системы, проверка на утечки, заправка хладагентом и антибактериальная обработка испарителя.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.491Z",
+    "updated_at": "2026-11-27T12:08:37.491Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 5,
+  "fields": {
+    "title": "Ремонт тормозной системы",
+    "category": 3,
+    "mechanic": 3,
+    "price": "3000.00",
+    "duration_minutes": 90,
+    "description": "Замена колодок и дисков, прокачка тормозной системы, проверка суппортов и шлангов. Гарантия на работы 1 год.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.493Z",
+    "updated_at": "2026-11-27T12:08:37.493Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 6,
+  "fields": {
+    "title": "Ремонт подвески",
+    "category": 3,
+    "mechanic": 1,
+    "price": "4500.00",
+    "duration_minutes": 120,
+    "description": "Замена рычагов, сайлентблоков, стоек и подшипников. После ремонта — контрольный заезд и проверка развала-схождения.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.495Z",
+    "updated_at": "2026-11-27T12:08:37.495Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 7,
+  "fields": {
+    "title": "Замена ремня ГРМ",
+    "category": 3,
+    "mechanic": 3,
+    "price": "6000.00",
+    "duration_minutes": 180,
+    "description": "Замена ремня, роликов натяжителя и обводного ролика. При необходимости — замена помпы. Отметка о пробеге в заказ-наряде.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.497Z",
+    "updated_at": "2026-11-27T12:08:37.497Z"
+  }
+},
+{
+  "model": "catalog.service",
+  "pk": 8,
+  "fields": {
+    "title": "Шиномонтаж и балансировка",
+    "category": 4,
+    "mechanic": 4,
+    "price": "2200.00",
+    "duration_minutes": 50,
+    "description": "Снятие, монтаж и балансировка четырёх колёс на стенде. Проверка давления и состояния протектора.",
+    "image": "",
+    "created_at": "2026-11-27T12:08:37.499Z",
+    "updated_at": "2026-11-27T12:08:37.499Z"
+  }
 }
 ]
